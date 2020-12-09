@@ -9,7 +9,7 @@ csv_header = ['Date', 'Time', 'Athens_Temp', 'Brest_Temp', 'Madrid_Temp', 'Vienn
 dataset_names = ['Athens', 'Brest', 'Madrid', 'Vienna']
 dataset_month_range = [6, 10]
 dataset_day_range = [30, 30]
-no_data_value = -9999.99
+no_data_value = cal.NaN
 
 list_Athens = cal.read_csv(path_Athens)
 list_Brest = cal.read_csv(path_Brest)
@@ -45,5 +45,5 @@ for row in cal_list_tmp:
 
 cal.write_csv(path='export_dir/Temperatures.csv', list_write=cal_list, delimeter=cal.del_comma)
 
-# for row in cal_list:
-#     print(row)
+for row in cal_list:
+    print(row)

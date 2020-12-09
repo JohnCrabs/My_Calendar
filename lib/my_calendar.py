@@ -78,6 +78,8 @@ del_underscore = '_'
 del_dash = '-'
 del_slash = '/'
 
+NaN = "nan"
+
 
 # Read Csv
 def read_csv(path: str, delimeter=del_comma):
@@ -634,7 +636,7 @@ class Calendar:
                     for timestamp in self.list_timespamp:
                         self.dict_calendar[date_tmp][timestamp] = {}
 
-    def add_default_events_in_range(self, event_list, no_data_value=None, month_start=1, day_start=0,
+    def add_default_events_in_range(self, event_list, no_data_value=NaN, month_start=1, day_start=0,
                                     month_end=12, day_end=31):
         """
         Add an event.
