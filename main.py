@@ -1,4 +1,6 @@
 import lib.my_calendar as cal
+import pandas as pd
+import numpy as np
 
 path_Athens = 'data/Athens2020_from_8_to_11.csv'
 path_Brest = 'data/Brest2020_from_8_to_11.csv'
@@ -6,10 +8,10 @@ path_Madrid = 'data/Madrid2020_from_8_to_11.csv'
 path_Vienna = 'data/Vienna2020_from_8_to_11.csv'
 
 csv_header = ['Date', 'Time', 'Athens_Temp', 'Brest_Temp', 'Madrid_Temp', 'Vienna_Temp']
-dataset_names = ['Athens', 'Brest', 'Madrid', 'Vienna']
+dataset_names = ['Athens_Temp', 'Brest_Temp', 'Madrid_Temp', 'Vienna_Temp']
 dataset_month_range = [6, 10]
 dataset_day_range = [30, 30]
-no_data_value = cal.NaN
+no_data_value = None
 
 list_Athens = cal.read_csv(path_Athens)
 list_Brest = cal.read_csv(path_Brest)
@@ -45,5 +47,24 @@ for row in cal_list_tmp:
 
 cal.write_csv(path='export_dir/Temperatures.csv', list_write=cal_list, delimeter=cal.del_comma)
 
-for row in cal_list:
-    print(row)
+# for row in cal_list:
+#    print(row)
+
+cal_array = np.array(cal_list_tmp).T
+cal_dict_tmp = {}
+i = 0
+for key in csv_header:
+    if key in dataset_names:
+        cal_dict_tmp[key] = list(cal_array[i].astype(np.float))
+    else:
+        cal_dict_tmp[key] = list(cal_array[i])
+    i += 1
+
+df = pd.DataFrame(cal_dict_tmp)
+df.interpolate(method='linear', limit_direction='both', inplace=True)
+#print(df)
+
+cal_list_inter = [csv_header]
+for row in df.values.tolist():
+    cal_list_inter.append(row)
+cal.write_csv(path='export_dir/Temperatures_Interpolated.csv', list_write=cal_list_inter, delimeter=cal.del_comma)
