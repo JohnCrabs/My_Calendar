@@ -57,8 +57,8 @@ for row in cal_list_tmp:
 
 cal.write_csv(path='export_dir/Temperatures_2020.csv', list_write=cal_list_2020, delimeter=cal.del_comma)
 
-# for row in cal_list:
-#    print(row)
+# for row in cal_list_tmp:
+#     print(row)
 
 # Interpolate missing values and export them
 cal_array = np.array(cal_list_tmp).T
@@ -155,3 +155,26 @@ for row in cal_list_tmp:
     cal_list_2019.append(row)
 
 cal.write_csv(path='export_dir/Temperatures_2019.csv', list_write=cal_list_2019, delimeter=cal.del_comma)
+
+# for row in cal_list_tmp:
+#    print(row)
+
+# Interpolate missing values and export them
+cal_array = np.array(cal_list_tmp).T
+cal_dict_tmp = {}
+i = 0
+for key in csv_header:
+    if key in dataset_names:
+        cal_dict_tmp[key] = list(cal_array[i].astype(np.float))
+    else:
+        cal_dict_tmp[key] = list(cal_array[i])
+    i += 1
+
+df = pd.DataFrame(cal_dict_tmp)
+df.interpolate(method='linear', limit_direction='both', inplace=True)
+# print(df)
+
+cal_list_inter = [csv_header]
+for row in df.values.tolist():
+    cal_list_inter.append(row)
+cal.write_csv(path='export_dir/Temperatures_Interpolated_2019.csv', list_write=cal_list_inter, delimeter=cal.del_comma)

@@ -815,4 +815,5 @@ class Calendar:
         for event in event_list:
             if event[0] in self.dict_calendar.keys():
                 if event[1] in self.dict_calendar[event[0]].keys():
-                    self.dict_calendar[event[0]][event[1]][event_name] = event[2]
+                    if event[2] is not '':
+                        self.dict_calendar[event[0]][event[1]][event_name] = event[2]
