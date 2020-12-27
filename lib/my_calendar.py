@@ -68,6 +68,10 @@ M_YY_D = 'myyd'
 YY_M_D = 'yymd'
 YY_D_M = 'yydm'
 
+# Different systems to create the hour
+HH_MM = 'hhmm'
+HH_MM_SS = 'hhmmss'
+
 # Delimeters
 del_comma = ','
 del_hashtag = '#'
@@ -258,6 +262,30 @@ class Calendar:
             if date_format == YY_DD_MM or date_format == YY_D_M:
                 year = str(int(year) + (century-1)*100)
             return day, month, year
+
+    @staticmethod
+    def change_hour_number_list_to_time(list_hour: [], date_format=HH_MM):
+        list_hour_tmp = []
+        if date_format == HH_MM:
+            for hour in list_hour:
+                list_hour_tmp.append('%02i' % int(hour) + ':00')
+        elif date_format == HH_MM_SS:
+            for hour in list_hour:
+                list_hour_tmp.append('%02i' % int(hour) + ':00:00')
+        return list_hour_tmp
+
+    @staticmethod
+    def change_hour_number_in_a_cal_list_to_time(list_event: [], date_format=HH_MM):
+        list_hour_tmp = []
+        if date_format == HH_MM:
+            for event in list_event:
+                event[1] = '%02i' % int(event[1]) + ':00'
+                list_hour_tmp.append(event)
+        elif date_format == HH_MM_SS:
+            for event in list_event:
+                event[1] = '%02i' % int(event[1]) + ':00'
+                list_hour_tmp.append(event)
+        return list_hour_tmp
 
     def change_date_format_in_list(self, list_event: [], date_format_from: str, date_format_to: str,
                                    date_delimeter_from=del_slash, date_delimeter_to=del_slash, century=21):
@@ -785,4 +813,6 @@ class Calendar:
 
     def add_values_for_event_from_list(self, event_name: str, event_list: []):
         for event in event_list:
-            self.dict_calendar[event[0]][event[1]][event_name] = event[2]
+            if event[0] in self.dict_calendar.keys():
+                if event[1] in self.dict_calendar[event[0]].keys():
+                    self.dict_calendar[event[0]][event[1]][event_name] = event[2]
