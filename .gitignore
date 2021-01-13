@@ -1,5 +1,5 @@
 venv
 .idea
-export_dir
 covid_data
+export_dir
 temperatures_data
