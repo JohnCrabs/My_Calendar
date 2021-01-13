@@ -669,7 +669,7 @@ class Calendar:
         """
         Add an event.
         :param event_list: The name of the event.
-        :param no_data_value: Set no data value. This needed, if the event is a range of numerical values.
+        :param no_data_value: Set no temperatures_data value. This needed, if the event is a range of numerical values.
         :param month_start: The month start (for the range month)
         :param day_start: The day start (for the range day)
         :param month_end: The month end (for the range month)
